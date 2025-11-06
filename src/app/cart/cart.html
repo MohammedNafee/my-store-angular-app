@@ -1,0 +1,66 @@
+<section class="cart">
+	<h1>Your Cart</h1>
+
+	<div class="cart-list" *ngIf="items$ | async as items">
+		<div *ngIf="items.length; else empty">
+			<div class="cart-item" *ngFor="let item of items">
+				<img [src]="item.url" [alt]="item.name" />
+				<div class="info">
+					<div class="name">{{ item.name }}</div>
+					<div class="price">{{ item.price | currency }}</div>
+				</div>
+				<button class="btn-remove" (click)="remove(item.id)">Remove</button>
+			</div>
+
+			<div class="cart-summary">
+				<div>Total: {{ total() | currency }}</div>
+				<button class="btn-clear" (click)="clear()">Clear Cart</button>
+			</div>
+
+			<!-- Checkout form embedded in Cart -->
+			<section class="checkout">
+				<h2>Checkout</h2>
+				<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+					<div class="row">
+						<label>
+							Full name
+							<input formControlName="fullName" />
+						</label>
+						<label>
+							Email
+							<input formControlName="email" type="email" />
+						</label>
+					</div>
+
+					<label>
+						Address
+						<input formControlName="address" />
+					</label>
+
+					<div class="row">
+						<label>
+							City
+							<input formControlName="city" />
+						</label>
+						<label>
+							Country
+							<input formControlName="country" />
+						</label>
+					</div>
+
+					<label>
+						Notes (optional)
+						<textarea formControlName="notes"></textarea>
+					</label>
+
+					<div class="checkout-actions">
+						<button type="submit" class="btn-submit" [disabled]="form.invalid">Place Order — {{ total() | currency }}</button>
+					</div>
+				</form>
+			</section>
+		</div>
+		<ng-template #empty>
+			<div class="empty">Your cart is empty.</div>
+		</ng-template>
+	</div>
+</section>

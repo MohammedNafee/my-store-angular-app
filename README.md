@@ -1,6 +1,21 @@
 # MyStore
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
+A modern e-commerce application built with Angular 17, featuring a responsive product catalog, shopping cart functionality, and a streamlined checkout process.
+
+## Features
+
+- **Product Catalog**: Browse through a collection of products with detailed information
+- **Shopping Cart**: Add/remove items with quantity management and persistent storage
+- **Checkout Process**: User-friendly form for completing purchases
+- **Responsive Design**: Optimized for both desktop and mobile devices
+
+## Technical Stack
+
+- **Framework**: Angular 17 (Standalone Components)
+- **State Management**: RxJS with BehaviorSubject
+- **Form Handling**: Reactive Forms
+- **Data Persistence**: LocalStorage
+- **Styling**: Custom CSS with responsive design
 
 ## Development server
 
@@ -54,6 +69,55 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+## Application Structure
+
+```
+src/app/
+├── models/              # Data models and interfaces
+│   └── Product.ts      # Product interface definition
+├── services/           # Shared services
+│   ├── product.ts      # Product data service
+│   └── cart.ts         # Cart management service
+├── nav-bar/           # Navigation component
+│   ├── nav-bar.ts     # Navigation logic
+│   ├── nav-bar.html   # Navigation template
+│   └── nav-bar.css    # Navigation styles
+├── product-list/      # Product catalog container
+│   ├── product-list.ts     # List component
+│   ├── product-list.html   # List template
+│   └── product-list.css    # List styles
+├── product-item/      # Individual product component
+│   ├── product-item.ts     # Product item logic
+│   ├── product-item.html   # Product item template
+│   └── product-item.css    # Product item styles
+└── cart/             # Cart and checkout functionality
+    ├── cart.ts       # Cart component with checkout
+    ├── cart.html     # Cart template
+    └── cart.css      # Cart styles
+```
+
+## Prerequisites
+
+Before running the application, ensure you have the following installed:
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- Angular CLI (v17 or higher)
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   ng serve
+   ```
+4. Navigate to `http://localhost:4200` in your browser
+
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- [Angular Documentation](https://angular.dev)
+- [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli)
+- [RxJS Documentation](https://rxjs.dev)

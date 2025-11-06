@@ -1,0 +1,15 @@
+<div class="product-item" role="article" aria-label="{{ product.name }}">
+  <div class="image-wrap">
+    <img [src]="product.url" [alt]="product.name" />
+  </div>
+
+  <div class="content">
+    <h2 class="title">{{ product.name }}</h2>
+    <p class="description">{{ product.description }}</p>
+
+    <div class="meta">
+      <span class="price">{{ product.price | currency }}</span>
+      <button class="btn-add" (click)="addToCart()" aria-label="Add {{ product.name }} to cart">Add to Cart</button>
+    </div>
+  </div>
+</div>
