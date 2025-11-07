@@ -1,13 +1,15 @@
 <div class="product-item" role="article" aria-label="{{ product.name }}">
   <div class="image-wrap">
-    <a [routerLink]="['/products', product.id]">
-      <img [src]="product.url" [alt]="product.name" />
-    </a>
+    <img 
+      [src]="product.url" 
+      [alt]="product.name"
+      (click)="onSelectProduct()" 
+      class="clickable-image"
+    />
   </div>
 
   <div class="content">
     <h2 class="title">{{ product.name }}</h2>
-    <p class="description">{{ product.description }}</p>
 
     <div class="meta">
       <span class="price">{{ product.price | currency }}</span>

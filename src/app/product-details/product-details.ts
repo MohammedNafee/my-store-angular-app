@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProductService } from '../services/product';
 import { CartService } from '../services/cart.service';
 import { Product as ProductModel } from '../models/Product';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-product-details',
@@ -14,21 +15,30 @@ import { Product as ProductModel } from '../models/Product';
 })
 
 export class ProductDetails implements OnInit {
-  product: ProductModel = {} as ProductModel;
+  
+  product?: ProductModel;
 
   constructor(
     private route: ActivatedRoute, 
     private productService: ProductService,
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private cdr: ChangeDetectorRef
   ) {}
+  
 
-  ngOnInit(): void {
-    const productId = this.route.snapshot.paramMap.get('id');
+  ngOnInit() {
+    const productId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('ProductDetails initialized with product ID:', productId);
     if (productId) {
+      console.log('Fetching details for product ID:', productId);
       this.productService.getProductById(productId).subscribe((product) => {
         this.product = product;
+        console.log('Product details loaded:', this.product);
+        this.cdr.detectChanges();
       });
+    } else {
+      console.error('No product ID found in route parameters.');
     }
   }
 
