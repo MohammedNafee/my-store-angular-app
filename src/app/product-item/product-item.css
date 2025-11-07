@@ -32,6 +32,16 @@
 	display: block;
 }
 
+.clickable-image {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.clickable-image:hover {
+  transform: scale(1.05);
+}
+
+
 .content {
 	padding: 1rem 1.25rem 1.5rem;
 	display: flex;

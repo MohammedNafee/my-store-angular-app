@@ -1,6 +1,8 @@
 <div class="product-item" role="article" aria-label="{{ product.name }}">
   <div class="image-wrap">
-    <img [src]="product.url" [alt]="product.name" />
+    <a [routerLink]="['/products', product.id]">
+      <img [src]="product.url" [alt]="product.name" />
+    </a>
   </div>
 
   <div class="content">
