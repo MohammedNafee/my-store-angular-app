@@ -32,16 +32,32 @@ export class CartService {
     return this._items$.value;
   }
 
-  add(item: ProductModel) {
-    const items = [...this._items$.value, item];
-    this._items$.next(items);
-    this.persist(items);
+  add(product: ProductModel) {
+    const existingProduct = this.snapshot.find(item => item.id === product.id);
+
+    if (existingProduct) {
+      // If product exists, increase quantity
+      existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+    } else {
+      // Add product with quantity 1
+      this.snapshot.push({ ...product, quantity: 1 });
+    }
+
+    this._items$.next([...this.snapshot]);
   }
 
+
   remove(id: number) {
-    const items = this._items$.value.filter(i => i.id !== id);
-    this._items$.next(items);
-    this.persist(items);
+    const existingProduct = this.snapshot.find(item => item.id === id);
+    
+    if (existingProduct && existingProduct.quantity && existingProduct.quantity > 1) {
+      // Decrease quantity if more than 1
+      existingProduct.quantity -= 1;
+    } else {
+      const items = this._items$.value.filter(i => i.id !== id);
+      this._items$.next(items);
+      this.persist(items);
+    }
   }
 
   clear() {

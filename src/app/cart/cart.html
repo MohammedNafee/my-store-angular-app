@@ -1,5 +1,7 @@
 <section class="cart">
 	<h1>Your Cart</h1>
+	<!-- Feedback Message -->
+	<div class="feedback" *ngIf="feedbackMessage">{{ feedbackMessage }}</div>
 
 	<div class="cart-list" *ngIf="items$ | async as items">
 		<div *ngIf="items.length; else empty">
@@ -8,6 +10,13 @@
 				<div class="info">
 					<div class="name">{{ item.name }}</div>
 					<div class="price">{{ item.price | currency }}</div>
+					
+					<div class="quantity-controls">
+  						<button (click)="decreaseQuantity(item)">-</button>
+  						<span>{{ item.quantity }}</span>
+  						<button (click)="increaseQuantity(item)">+</button>
+					</div>
+
 				</div>
 				<button class="btn-remove" (click)="remove(item.id)">Remove</button>
 			</div>
@@ -19,45 +28,111 @@
 
 			<!-- Checkout form embedded in Cart -->
 			<section class="checkout">
-				<h2>Checkout</h2>
-				<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-					<div class="row">
-						<label>
-							Full name
-							<input formControlName="fullName" />
-						</label>
-						<label>
-							Email
-							<input formControlName="email" type="email" />
-						</label>
-					</div>
-
-					<label>
-						Address
-						<input formControlName="address" />
-					</label>
-
-					<div class="row">
-						<label>
-							City
-							<input formControlName="city" />
-						</label>
-						<label>
-							Country
-							<input formControlName="country" />
-						</label>
-					</div>
-
-					<label>
-						Notes (optional)
-						<textarea formControlName="notes"></textarea>
-					</label>
-
-					<div class="checkout-actions">
-						<button type="submit" class="btn-submit" [disabled]="form.invalid">Place Order — {{ total() | currency }}</button>
-					</div>
-				</form>
+			  <h2>Checkout</h2>
+			  <form #checkoutForm="ngForm" (ngSubmit)="submit(checkoutForm)" novalidate>
+			
+			    <div class="row">
+			      <label>
+			        Full Name
+			        <input 
+			          type="text" 
+			          name="fullName" 
+			          [(ngModel)]="checkoutData.fullName" 
+			          #fullName="ngModel"
+			          required 
+			          minlength="3"
+			          [ngClass]="{'invalid': fullName.invalid && fullName.touched}" 
+			        />
+			      </label>
+			      <div *ngIf="fullName.invalid && fullName.touched" class="error">
+			        <small *ngIf="fullName.errors?.['required']">Full Name is required.</small>
+			        <small *ngIf="fullName.errors?.['minlength']">Full Name must be at least 3 characters.</small>
+			      </div>
+			  
+			      <label>
+			        Email
+			        <input 
+			          type="email" 
+			          name="email" 
+			          [(ngModel)]="checkoutData.email" 
+			          #email="ngModel"
+			          required 
+			          email
+			          [ngClass]="{'invalid': email.invalid && email.touched}" 
+			        />
+			      </label>
+			      <div *ngIf="email.invalid && email.touched" class="error">
+			        <small *ngIf="email.errors?.['required']">Email is required.</small>
+			        <small *ngIf="email.errors?.['email']">Enter a valid email.</small>
+			      </div>
+			    </div>
+			
+			    <label>
+			      Address
+			      <input 
+			        type="text" 
+			        name="address" 
+			        [(ngModel)]="checkoutData.address" 
+			        #address="ngModel" 
+			        required 
+			        minlength="8"
+			        [ngClass]="{'invalid': address.invalid && address.touched}"
+			      />
+			    </label>
+			    <div *ngIf="address.invalid && address.touched" class="error">
+			      <small *ngIf="address.errors?.['required']">Address is required.</small>
+			      <small *ngIf="address.errors?.['minlength']">Address must be at least 8 characters.</small>
+			    </div>
+			
+			    <div class="row">
+			      <label>
+			        City
+			        <input 
+			          type="text" 
+			          name="city" 
+			          [(ngModel)]="checkoutData.city" 
+			          #city="ngModel" 
+			          required
+			          [ngClass]="{'invalid': city.invalid && city.touched}"
+			        />
+			      </label>
+			      <div *ngIf="city.invalid && city.touched" class="error">
+			        <small>City is required.</small>
+			      </div>
+			  
+			      <label>
+			        Country
+			        <input 
+			          type="text" 
+			          name="country" 
+			          [(ngModel)]="checkoutData.country" 
+			          #country="ngModel" 
+			          required
+			          [ngClass]="{'invalid': country.invalid && country.touched}"
+			        />
+			      </label>
+			      <div *ngIf="country.invalid && country.touched" class="error">
+			        <small>Country is required.</small>
+			      </div>
+			    </div>
+			
+			    <label>
+			      Notes (optional)
+			      <textarea 
+			        name="notes" 
+			        [(ngModel)]="checkoutData.notes">
+			      </textarea>
+			    </label>
+			
+			    <div class="checkout-actions">
+			      <button type="submit" class="btn-submit" [disabled]="checkoutForm.invalid">
+			        Place Order — {{ total() | currency }}
+			      </button>
+			    </div>
+			
+			  </form>
 			</section>
+
 		</div>
 		<ng-template #empty>
 			<div class="empty">Your cart is empty.</div>
